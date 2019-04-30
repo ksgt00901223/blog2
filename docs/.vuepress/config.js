@@ -1,7 +1,10 @@
 module.exports = {
   title: 'Hello VuePress',
   description: 'Just playing around',
-  // permalink: "/:year/:month/:day/:slug/:regular",
+  // base: '/blog', // 这是部署到github相关的配置 下面会讲
+  head: [
+    ['link', { rel: 'icon', href: '/img/favicon.ico' }] // 增加一个自定义的 favicon(网页标签的图标)
+  ],
   plugins: [
     '@vuepress/back-to-top', // 返回顶部
     [
@@ -11,7 +14,6 @@ module.exports = {
       }
     ],
     '@vuepress/pagination', // 分页
-    // ['@vuepress/blog', { categoryIndexPageUrl: '/article/' }], // 博客
     '@vuepress/blog',
     '@vuepress/medium-zoom',
     '@vuepress/last-updated'
