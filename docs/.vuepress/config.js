@@ -1,5 +1,5 @@
 module.exports = {
-  title: '枫仁苑',
+  title: 'Pandada',
   description: '永远不要只满足于世界的表象，要敢于探寻未知的可能。',
   // base: '/blog', // 这是部署到github相关的配置 下面会讲
   head: [

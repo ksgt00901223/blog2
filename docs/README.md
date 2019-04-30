@@ -10,7 +10,7 @@ heroImageConfig: {
   max-width: 600px,
   border-radius: 4px,
   margin: 3rem auto 1.5rem,
-  overflow: hidden;
+  overflow: hidden
 }
 features:
 - title: 简洁至上
