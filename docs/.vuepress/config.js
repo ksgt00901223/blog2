@@ -1,6 +1,6 @@
 module.exports = {
-  title: 'Hello VuePress',
-  description: 'Just playing around',
+  title: '枫仁苑',
+  description: '永远不要只满足于世界的表象，要敢于探寻未知的可能。',
   // base: '/blog', // 这是部署到github相关的配置 下面会讲
   head: [
     ['link', { rel: 'icon', href: '/img/favicon.ico' }] // 增加一个自定义的 favicon(网页标签的图标)
@@ -30,9 +30,10 @@ module.exports = {
   themeConfig: {
     displayAllHeaders: true, // 默认值：false
     activeHeaderLinks: false, // 默认值：true
+    logo:'/img/logo.gif',
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Article', link: '/article/' },
+      { text: 'Home', link: '/' ,icon:'el-icon-eleme'},
+      { text: 'Article', link: '/article/',icon:'el-icon-eleme' },
       { text: 'Github', link: 'https://google.com' }
     ]
   },
