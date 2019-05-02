@@ -16,7 +16,7 @@
                 lazy
             >
                 <div slot="placeholder" class="image-slot">
-                    加载中
+                    拼命抢网速中 <i class="el-icon-loading"/>
                     <span class="dot">...</span>
                 </div>
             </el-image>

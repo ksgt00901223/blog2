@@ -1,4 +1,4 @@
 ---
 pageType: List
-isCategory: true
+isTag: true
 ---
