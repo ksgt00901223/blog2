@@ -5,19 +5,22 @@
         id='Tags'
     >
         <div class="tagsPart">
-            <span>标签：</span>
+            <span style="font-size:12px">标签：</span>
             <span
                 v-for='(value,key, index) of tags '
                 :key='key'
-                class="tagsItem"
+                class="tagsItem  bg-colors"
+                @click="emitData(key,value,index)"
+                :class="active==index?'active':''"
             >
-                <el-button
+                <!-- <el-button
                     type="text"
-                    :style="{'color':randomColor()}"
-                    @click="$emit('tagsItem',key,value)"
+                    :size="active===index?'medium':'mini'"
+                    @click="emitData(key,value,index)"
 
-                >{{key}}</el-button>
-                <el-divider direction="vertical"></el-divider>
+                >{{key}}</el-button> -->
+                {{key}}
+
             </span>
         </div>
 
@@ -28,6 +31,7 @@
 export default {
     data() {
         return {
+            active: 0
         }
     },
     components: {},
@@ -60,12 +64,64 @@ export default {
         },
         randomColor() {
             return this.colors[this.randomNum()]
+        },
+        emitData(key, value, active) {
+            this.active = active
+            this.$emit('tagsItem', key, value)
         }
     }
 }
 </script>
 
 <style scoped lang="stylus">
+$lightColor = #eaecef;
+
 #Tags {
+    .tagsItem {
+        padding: 4px 8px;
+        margin-bottom: 5px;
+        margin-right: 5px;
+        cursor: pointer;
+        font-size: 12px;
+        color: #fff;
+        transition: all 0.5s;
+        display: inline-block;
+
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+
+    .bg-colors:nth-child(8n) {
+        background: #FC4349;
+    }
+
+    .bg-colors:nth-child(8n+1) {
+        background: #CBD6DA;
+    }
+
+    .bg-colors:nth-child(8n+2) {
+        background: #C458EC;
+    }
+
+    .bg-colors:nth-child(8n+3) {
+        background: #FFE445;
+    }
+
+    .bg-colors:nth-child(8n+4) {
+        background: #FCC143;
+    }
+
+    .bg-colors:nth-child(8n+5) {
+        background: #FC4349;
+    }
+
+    .bg-colors:nth-child(8n+6) {
+        background: #C458EC;
+    }
+
+    .bg-colors:nth-child(8n+7) {
+        background: #FCC143;
+    }
 }
 </style>

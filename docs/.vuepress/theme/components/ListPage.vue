@@ -3,38 +3,33 @@
         <slot name="top" />
 
         <div class="content default">
-            <h1>{{title}}</h1>
-            <div
-                class="categories"
-                v-if="isCategory"
-            >
+            <h1>{{title}} </h1>
+            <div class="categories">
                 <Category @categoryItem='categoryData' />
             </div>
-            <div
-                class="tags"
-                v-if="isTag"
-            >
-                <Tags @tagsItem='tagData' />
+            <div class="tags">
+                <Tags @tagsItem='categoryData' />
             </div>
-            <div
-                class="list"
-                v-if="isCategory"
-            >
-                <el-card
+            <div><small>共{{list.length}}篇</small></div>
+            <div class="list">
+                <section
                     v-for='(item, index) in list'
                     :key='index'
-                    class="mb10"
+                    class="mb15 row"
                 >
-                    <article>
+                    <article :style="{padding:'0 20px','border-right':'5px solid'+ randomColor(index)}">
                         <header>
-                            <h2 class="m0">
-                                <router-link :to="item.path">
+                            <h3 class="m0 title">
+                                <router-link
+                                    :to="item.path"
+                                    class="top-bottom"
+                                >
                                     {{ item.title }}
                                 </router-link>
-                            </h2>
-                        </header>
+                            </h3>
 
-                        <div>
+                        </header>
+                        <div class="info">
                             <span>
                                 <i class="el-icon-menu"></i>
                                 <span class="category">
@@ -54,13 +49,14 @@
                             </span>
                             <span
                                 :id="item.path"
-                                class="leancloud-visitors"
+                                class="leancloud-visitors vistorNum"
                                 data-flag-title="Your Article Title"
                             >
-                                <em class="post-meta-item-text">阅读量</em>
-                                <i class="leancloud-visitors-count">0</i>；
+                                <em class="post-meta-item-text"> <i class="el-icon-menu"></i>
+                                </em>
+                                <i class="leancloud-visitors-count">0</i>
                             </span>
-                            <span style="float:right;width:120px">
+                            <span>
                                 <i class="el-icon-menu"></i>
                                 <span class="category">
                                     {{item.frontmatter.date || '2019/05/55'}}
@@ -69,44 +65,7 @@
 
                         </div>
                     </article>
-                </el-card>
-            </div>
-            <div
-                class="list"
-                v-if="isTag"
-            >
-                <ul>
-                    <li v-for='(item, index) in list' :key='index'>
-                         <article
-
-                    >
-                        <header>
-                            <h2 class="mb5 dashedBox">
-                                <router-link :to="item.path">
-                                    {{ item.title }}
-                                </router-link>
-                            </h2>
-                        </header>
-
-                    </article>
-
-                    </li>
-                </ul>
-                <!-- <div class="tagList">
-                    <article
-                        v-for='(item, index) in list'
-                        :key='index'
-                    >
-                        <header>
-                            <h2 class="mb5 dashedBox">
-                                <router-link :to="item.path">
-                                    {{ item.title }}
-                                </router-link>
-                            </h2>
-                        </header>
-
-                    </article>
-                </div> -->
+                </section>
             </div>
         </div>
         <Content />
@@ -171,6 +130,9 @@ export default {
         },
         isCategory() {
             return this.$frontmatter.isCategory
+        },
+        colors() {
+            return this.$themeConfig.colors
         }
     },
 
@@ -194,46 +156,87 @@ export default {
         categoryData(type, data) {
             if (type === 'all') {
                 this.initList()
+                this.title = '文章列表'
             } else {
-                this.title = type + '文章列表'
+                this.title = '文章列表--' + type
                 this.list = data.posts
             }
         },
-        tagData(type, data) {
-            this.title = type + '文章列表'
-            this.list = data.posts
+        randomNum() {
+            return Math.floor(Math.random() * this.colors.length)
+        },
+        randomColor(val) {
+            return this.colors[val % this.colors.length]
         }
     }
 }
 </script>
 
 <style lang="stylus">
+$lightColor = #eaecef;
+
 .page {
     padding-bottom: 2rem;
     display: block;
+
+    a {
+        color: #303133;
+    }
 }
 
 .mb10 {
     margin-bottom: 10px;
 }
 
+.mb15 {
+    margin-bottom: 15px;
+}
+
 .tag {
     padding: 3px 5px;
     margin-bottom: 5px;
-    border: 1px solid #000;
+    font-size: 12px;
 }
 
 .list {
     padding: 20px 0;
 }
-.tagList{
-    border-left 1px solid #ccc
+
+.tagList {
+    border-left: 1px solid $lightColor;
+    border: 1px solid $lightColor;
+    border-top: 0;
 }
+
 .category {
     padding: 3px 5px;
     margin-bottom: 5px;
     margin-right: 10px;
-    border: 1px solid #000;
+    font-size: 12px;
+    // border: 1px solid #000;
+}
+
+.vistorNum {
+    font-size: 12px;
+}
+
+.row {
+    box-shadow: 2px 2px 5px $lightColor;
+    border: 1px solid $lightColor;
+
+    .title {
+        border-bottom: 1px solid $lightColor;
+        // padding: 10px 20px;
+        padding: 10px 0;
+
+        a:hover {
+            text-decoration: none;
+        }
+    }
+
+    .info {
+        padding: 10px 0;
+    }
 }
 
 .m0 {
@@ -245,7 +248,7 @@ export default {
 }
 
 .dashedBox {
-    border: 2px dashed #ccc;
+    border: 2px dashed $lightColor;
     border-radius: 4px;
 }
 </style>

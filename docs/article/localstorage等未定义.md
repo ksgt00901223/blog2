@@ -3,16 +3,14 @@ permalink: /:year/:month/:day/:slug
 title: LocalStorage is undefined
 date: 2019/3/20
 categories:
-- 坑货
+    - 坑货
 tags:
-- undefined
-- Vuepress
-- HTML
-- SSR
+    - undefined
+    - Vuepress
+    - HTML
+    - SSR
 ---
 
-
-## LocalStorage is undefined
 ### 背景
 
 在用 vuepress 搭建本博客时，文章列表采用的 **\$site.pages**然后进行排序筛选，然后为了方便，我把数组存到了 SessionStorage 里，然后再打包时遇到报错，说 SessionStorage 未定义，然后我改成 LocalStorage，还是会报这个错，然后百度说加个 window 对象，采用 window.LocalStorage，然后报错就变成了 window 未定义。在写的时候我就感觉不靠谱，因为 node 环境下是没有 window 对象的，然后翻到了一个靠谱的解释

@@ -3,16 +3,14 @@ permalink: /:year/:month/:day/:slug
 title: 直接在 js 用 id 名的变量
 date: 2019/3/20
 categories:
-- 前端
+    - 前端
 tags:
-- JavaScript
-- 技巧
+    - JavaScript
+    - 技巧
 ---
 
-
-## 直接在 js 用 id 名的变量
-
 ### 背景
+
 刚刚在写一个创建表格的函数，用于在指定 id 名的 div 下创建一个表格，然后函数参数为 div 的 id 名，一开始写的时候用
 
 ```

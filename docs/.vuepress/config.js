@@ -22,7 +22,8 @@ module.exports = {
 		'@vuepress/pagination', // 分页
 		'@vuepress/blog',
 		'@vuepress/medium-zoom',
-		'@vuepress/last-updated',
+        '@vuepress/last-updated',
+        '@vuepress/nprogress'
 	],
 	markdown: {
 		lineNumbers: true, // 代码块显示行号
@@ -48,10 +49,6 @@ module.exports = {
 				text: 'Article',
 				link: '/article/',
 				icon: 'el-icon-eleme',
-			},
-			{
-				text: 'tag',
-				link: '/tags.md',
 			},
 			{
 				text: 'me',

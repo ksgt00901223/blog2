@@ -42,3 +42,61 @@
         background-position: 0% 50%
     }
 }
+
+.avatar {
+  height: 100px;
+  width: 100px;
+  display: inline-block;
+  border-radius: 50%;
+  position: relative;
+  img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    margin-left: -50px;
+    bottom: 0;
+    transition: all 1s;
+  }
+  &:hover img {
+    height: 50px;
+    width: 150px;
+    margin-left: -75px;
+  }
+}
+
+.top-bottom{
+    position relative
+    &:after,&:before{
+        content: ""
+        position absolute
+        height 0
+        width 2px
+    }
+    &:after{
+
+        transition all .5s
+        right -10px
+        top 0
+    }
+    &:before{
+        left -10px
+        bottom 0
+        transition all .5s
+
+    }
+    &:hover{
+        &:before{
+            height 100%
+            width 2px
+            background #eaecef
+        }
+        &:after{
+            height 100%
+            width 2px
+            background #eaecef
+        }
+
+    }
+}

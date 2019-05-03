@@ -3,14 +3,11 @@ permalink: /:year/:month/:day/:slug
 title: VSCode 的一些常用的代码模板
 date: 2019/3/20
 categories:
-- 工具
+    - 工具
 tags:
-- VSCode
-- 工具
+    - VSCode
+    - 工具
 ---
-
-
-## VSCode 的一些常用的代码模板
 
 ### 自定义模板的步骤
 

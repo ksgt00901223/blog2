@@ -3,14 +3,11 @@ permalink: /:year/:month/:day/:slug
 title: js 获取 url 中的中文参数出现乱码
 date: 2019/3/20
 categories:
-- 坑货
+    - 坑货
 tags:
-- JavaScript
-- 技巧
+    - JavaScript
+    - 技巧
 ---
-
-
-## js 获取 url 中的中文参数出现乱码
 
 之前从 url 中获取参数遇到过中文变成乱码的格式，之后从网上找了一些资料发现了原因，先上代码：
 
