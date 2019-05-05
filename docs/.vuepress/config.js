@@ -54,7 +54,7 @@ module.exports = {
 				text: 'LoonDocs',
         items: [
           { text: 'Vue', link: '/loonDocs/vue/' },
-          // { text: 'Error', link: '/language/japanese/' }
+          { text: 'Error', link: '/loonDocs/error/' }
         ]
 			},
 			{
@@ -80,7 +80,10 @@ module.exports = {
         '状态管理',
         '常见问题'
 			]
-		}
+		},
+		'/loonDocs/error/':[
+			''
+		]
 	},
 	sidebarDepth: 2, // e'b将同时提取markdown中h2 和 h3 标题，显示在侧边栏上。
 	lastUpdated: '上次更新', // 文档更新时间：每个文件git最后提交的时间
