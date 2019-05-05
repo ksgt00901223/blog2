@@ -1,4 +1,0 @@
----
-pageType: List
-isTag: true
----

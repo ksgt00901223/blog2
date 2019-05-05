@@ -36,29 +36,51 @@ module.exports = {
 
 	themeConfig: {
 		colors: ['#FCC143', '#409EFF', '#67C23A', '#FC4349', '#CBD6DA', '#FFE445', '#C458EC'],
-		displayAllHeaders: true, // 默认值：false
+		// displayAllHeaders: true, // 默认值：false
 		activeHeaderLinks: false, // 默认值：true
 		logo: '/img/logo.gif',
 		nav: [
 			{
 				text: 'Home',
 				link: '/',
-				icon: 'el-icon-eleme',
+				icon: 'icon-home1',
 			},
 			{
 				text: 'Article',
 				link: '/article/',
-				icon: 'el-icon-eleme',
+				icon: 'icon-article',
 			},
 			{
-				text: 'me',
-				link: '/me.md',
+				text: 'LoonDocs',
+        items: [
+          { text: 'Vue', link: '/loonDocs/vue/' },
+          // { text: 'Error', link: '/language/japanese/' }
+        ]
+			},
+			{
+				text: 'About',
+				link: '/about.md',
+				icon:'icon-User'
 			},
 			{
 				text: 'Github',
-				link: 'https://google.com',
+				link: 'https://github.com/ksgt00901223',
 			},
 		],
+		sidebar:{
+			'/loonDocs/vue/':[
+				'',
+				'基础搭建',
+        '模板语法',
+        '列表渲染',
+        '常用指令',
+        '属性方法',
+        '组件相关',
+        '路由配置',
+        '状态管理',
+        '常见问题'
+			]
+		}
 	},
 	sidebarDepth: 2, // e'b将同时提取markdown中h2 和 h3 标题，显示在侧边栏上。
 	lastUpdated: '上次更新', // 文档更新时间：每个文件git最后提交的时间

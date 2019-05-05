@@ -9,7 +9,7 @@
       v-for="item in userLinks"
       :key="item.link"
     >
-    <i v-if="item.icon" :class="item.icon"></i>
+    <i v-if="item.icon" class="iconfont" :class="item.icon"></i>
       <DropdownLink
         v-if="item.type === 'links'"
         :item="item"
@@ -121,6 +121,7 @@ export default {
   display inline-block
   a
     line-height 1.4rem
+    text-decoration none
     color inherit
     &:hover, &.router-link-active
       color $accentColor

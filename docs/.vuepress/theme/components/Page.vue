@@ -1,108 +1,71 @@
 <template>
-    <main class="page">
-        <slot name="top" />
-        <div class="content default">
-            <h1>
-                {{$page.title}}
-            </h1>
-            <hr>
-            <div>
-                <span>
-                    <i class="el-icon-menu"></i>
-                    <span class="category">
-                        {{$frontmatter.categories[0]}}
-                    </span>
-                </span>
-
-                <span>
-                    <i class="el-icon-menu"></i>
-                    <span
-                        v-for='(tag, i) in $frontmatter.tags '
-                        :key='i'
-                        class="tag"
-                    >
-                        {{tag}}
-                    </span>
-                </span>
-                <span
-                    :id="$page.path"
-                    class="leancloud-visitors"
-                    data-flag-title="Your Article Title"
-                >
-                    <em class="post-meta-item-text">阅读量</em>
-                    <i class="leancloud-visitors-count">0</i>；
-                </span>
-                <span style="float:right;width:120px">
-                    <i class="el-icon-menu"></i>
-                    <span class="category">
-                        {{$frontmatter.date || '2019/05/55'}}
-                    </span>
-                </span>
-
-            </div>
-        </div>
-
-        <Content />
-
-        <footer class="page-edit">
-            <div style="height:30px">
-                <div
-                    class="edit-link"
-                    v-if="editLink"
-                >
-                    <a
-                        :href="editLink"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >{{ editLinkText }}</a>
-                    <OutboundLink />
-                </div>
-
-                <div
-                    class="last-updated"
-                    v-if="lastUpdated"
-                >
-                    <span class="prefix">{{ lastUpdatedText }}:</span>
-                    <span class="time">{{ lastUpdated }}</span>
-                </div>
-            </div>
-
-            <div v-if="!hidecomment">
-                <Valine />
-            </div>
-        </footer>
-
-        <div
-            class="page-nav"
-            v-if="prev || next"
+  <main class="page">
+    <slot name="top"/>
+    <div class="content default">
+      <h1>{{$page.title}}</h1>
+      <hr>
+      <div>
+        <span v-if="$frontmatter.date">
+          <i class="iconfont icon-shijian"></i>
+          <span class="category">{{$frontmatter.date || '2019/05/55'}}</span>
+        </span>
+        <span
+          :id="$page.path"
+          v-if="$page.path"
+          class="leancloud-visitors category"
+          :data-flag-title="$page.title"
         >
-            <p class="inner">
-                <span
-                    v-if="prev"
-                    class="prev"
-                >
-                    ←
-                    <router-link
-                        v-if="prev"
-                        class="prev"
-                        :to="prev.path"
-                    >{{ prev.title || prev.path }}</router-link>
-                </span>
+          <!-- <em class="post-meta-item-text"></em> -->
+          <i class="iconfont icon-eye"></i>
+          <i class="leancloud-visitors-count">0</i>
+        </span>
+        <span v-if="$frontmatter.categories">
+          <i class="iconfont icon-leimupinleifenleileibie"></i>
+          <span class="category">{{$frontmatter.categories[0]}}</span>
+        </span>
 
-                <span
-                    v-if="next"
-                    class="next"
-                >
-                    <router-link
-                        v-if="next"
-                        :to="next.path"
-                    >{{ next.title || next.path }}</router-link>→
-                </span>
-            </p>
+        <span v-if="$frontmatter.tags&&$frontmatter.tags.length">
+          <i class="iconfont icon-tag"></i>
+          <span v-for="(tag, i) in $frontmatter.tags " :key="i" class="tag"> <span v-if="i!=0">、</span> {{tag}}</span>
+        </span>
+      </div>
+    </div>
+
+    <Content/>
+
+    <footer class="page-edit">
+      <div style="height:30px">
+        <div class="edit-link" v-if="editLink">
+          <a :href="editLink" target="_blank" rel="noopener noreferrer">{{ editLinkText }}</a>
+          <OutboundLink/>
         </div>
 
-        <slot name="bottom" />
-    </main>
+        <div class="last-updated" v-if="lastUpdated">
+          <span class="prefix">{{ lastUpdatedText }}:</span>
+          <span class="time">{{ lastUpdated }}</span>
+        </div>
+      </div>
+
+      <div v-show="!hidecomment">
+        <Valine/>
+      </div>
+    </footer>
+
+    <div class="page-nav" v-if="prev || next">
+      <p class="inner">
+        <span v-if="prev" class="prev">
+          ←
+          <router-link v-if="prev" class="prev" :to="prev.path">{{ prev.title || prev.path }}</router-link>
+        </span>
+
+        <span v-if="next" class="next">
+          <router-link v-if="next" :to="next.path">{{ next.title || next.path }}</router-link>→
+        </span>
+      </p>
+    </div>
+
+    <slot name="bottom"/>
+  </main>
 </template>
 
 <script>
@@ -110,206 +73,206 @@ import { resolvePage, outboundRE, endingSlashRE } from '../util'
 import Valine from '@theme/components/Valine.vue'
 
 export default {
-    props: ['sidebarItems'],
-    components: { Valine },
-    computed: {
-        lastUpdated() {
-            return this.$page.lastUpdated
-        },
-        hidecomment() {
-            return this.$frontmatter.hidecomment
-        },
-        lastUpdatedText() {
-            if (typeof this.$themeLocaleConfig.lastUpdated === 'string') {
-                return this.$themeLocaleConfig.lastUpdated
-            }
-            if (typeof this.$site.themeConfig.lastUpdated === 'string') {
-                return this.$site.themeConfig.lastUpdated
-            }
-            return 'Last Updated'
-        },
-
-        prev() {
-            const prev = this.$page.frontmatter.prev
-            if (prev === false) {
-                return
-            } else if (prev) {
-                return resolvePage(this.$site.pages, prev, this.$route.path)
-            } else {
-                return resolvePrev(this.$page, this.sidebarItems)
-            }
-        },
-
-        next() {
-            const next = this.$page.frontmatter.next
-            if (next === false) {
-                return
-            } else if (next) {
-                return resolvePage(this.$site.pages, next, this.$route.path)
-            } else {
-                return resolveNext(this.$page, this.sidebarItems)
-            }
-        },
-
-        editLink() {
-            if (this.$page.frontmatter.editLink === false) {
-                return
-            }
-            const {
-                repo,
-                editLinks,
-                docsDir = '',
-                docsBranch = 'master',
-                docsRepo = repo
-            } = this.$site.themeConfig
-
-            if (docsRepo && editLinks && this.$page.relativePath) {
-                return this.createEditLink(
-                    repo,
-                    docsRepo,
-                    docsDir,
-                    docsBranch,
-                    this.$page.relativePath
-                )
-            }
-        },
-
-        editLinkText() {
-            return (
-                this.$themeLocaleConfig.editLinkText ||
-                this.$site.themeConfig.editLinkText ||
-                `Edit this page`
-            )
-        }
+  props: ['sidebarItems'],
+  components: { Valine },
+  computed: {
+    lastUpdated() {
+      return this.$page.lastUpdated
+    },
+    hidecomment() {
+      return this.$frontmatter.hidecomment
+    },
+    lastUpdatedText() {
+      if (typeof this.$themeLocaleConfig.lastUpdated === 'string') {
+        return this.$themeLocaleConfig.lastUpdated
+      }
+      if (typeof this.$site.themeConfig.lastUpdated === 'string') {
+        return this.$site.themeConfig.lastUpdated
+      }
+      return 'Last Updated'
     },
 
-    methods: {
-        createEditLink(repo, docsRepo, docsDir, docsBranch, path) {
-            const bitbucket = /bitbucket.org/
-            if (bitbucket.test(repo)) {
-                const base = outboundRE.test(docsRepo) ? docsRepo : repo
-                return (
-                    base.replace(endingSlashRE, '') +
-                    `/src` +
-                    `/${docsBranch}/` +
-                    (docsDir ? docsDir.replace(endingSlashRE, '') + '/' : '') +
-                    path +
-                    `?mode=edit&spa=0&at=${docsBranch}&fileviewer=file-view-default`
-                )
-            }
+    prev() {
+      const prev = this.$page.frontmatter.prev
+      if (prev === false) {
+        return
+      } else if (prev) {
+        return resolvePage(this.$site.pages, prev, this.$route.path)
+      } else {
+        return resolvePrev(this.$page, this.sidebarItems)
+      }
+    },
 
-            const base = outboundRE.test(docsRepo)
-                ? docsRepo
-                : `https://github.com/${docsRepo}`
-            return (
-                base.replace(endingSlashRE, '') +
-                `/edit` +
-                `/${docsBranch}/` +
-                (docsDir ? docsDir.replace(endingSlashRE, '') + '/' : '') +
-                path
-            )
-        }
+    next() {
+      const next = this.$page.frontmatter.next
+      if (next === false) {
+        return
+      } else if (next) {
+        return resolvePage(this.$site.pages, next, this.$route.path)
+      } else {
+        return resolveNext(this.$page, this.sidebarItems)
+      }
+    },
+
+    editLink() {
+      if (this.$page.frontmatter.editLink === false) {
+        return
+      }
+      const {
+        repo,
+        editLinks,
+        docsDir = '',
+        docsBranch = 'master',
+        docsRepo = repo
+      } = this.$site.themeConfig
+
+      if (docsRepo && editLinks && this.$page.relativePath) {
+        return this.createEditLink(
+          repo,
+          docsRepo,
+          docsDir,
+          docsBranch,
+          this.$page.relativePath
+        )
+      }
+    },
+
+    editLinkText() {
+      return (
+        this.$themeLocaleConfig.editLinkText ||
+        this.$site.themeConfig.editLinkText ||
+        `Edit this page`
+      )
     }
+  },
+
+  methods: {
+    createEditLink(repo, docsRepo, docsDir, docsBranch, path) {
+      const bitbucket = /bitbucket.org/
+      if (bitbucket.test(repo)) {
+        const base = outboundRE.test(docsRepo) ? docsRepo : repo
+        return (
+          base.replace(endingSlashRE, '') +
+          `/src` +
+          `/${docsBranch}/` +
+          (docsDir ? docsDir.replace(endingSlashRE, '') + '/' : '') +
+          path +
+          `?mode=edit&spa=0&at=${docsBranch}&fileviewer=file-view-default`
+        )
+      }
+
+      const base = outboundRE.test(docsRepo)
+        ? docsRepo
+        : `https://github.com/${docsRepo}`
+      return (
+        base.replace(endingSlashRE, '') +
+        `/edit` +
+        `/${docsBranch}/` +
+        (docsDir ? docsDir.replace(endingSlashRE, '') + '/' : '') +
+        path
+      )
+    }
+  }
 }
 
 function resolvePrev(page, items) {
-    return find(page, items, -1)
+  return find(page, items, -1)
 }
 
 function resolveNext(page, items) {
-    return find(page, items, 1)
+  return find(page, items, 1)
 }
 
 function find(page, items, offset) {
-    const res = []
-    flatten(items, res)
-    for (let i = 0; i < res.length; i++) {
-        const cur = res[i]
-        if (cur.type === 'page' && cur.path === decodeURIComponent(page.path)) {
-            return res[i + offset]
-        }
+  const res = []
+  flatten(items, res)
+  for (let i = 0; i < res.length; i++) {
+    const cur = res[i]
+    if (cur.type === 'page' && cur.path === decodeURIComponent(page.path)) {
+      return res[i + offset]
     }
+  }
 }
 
 function flatten(items, res) {
-    for (let i = 0, l = items.length; i < l; i++) {
-        if (items[i].type === 'group') {
-            flatten(items[i].children || [], res)
-        } else {
-            res.push(items[i])
-        }
+  for (let i = 0, l = items.length; i < l; i++) {
+    if (items[i].type === 'group') {
+      flatten(items[i].children || [], res)
+    } else {
+      res.push(items[i])
     }
+  }
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 @require '../styles/wrapper.styl';
 
 .page {
-    padding-bottom: 2rem;
-    display: block;
+  padding-bottom: 2rem;
+  display: block;
 }
 
 .page-edit {
-    @extend $wrapper;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    overflow: auto;
+  @extend $wrapper;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  overflow: auto;
 
-    .edit-link {
-        display: inline-block;
+  .edit-link {
+    display: inline-block;
 
-        a {
-            color: lighten($textColor, 25%);
-            margin-right: 0.25rem;
-        }
+    a {
+      color: lighten($textColor, 25%);
+      margin-right: 0.25rem;
+    }
+  }
+
+  .last-updated {
+    float: right;
+    font-size: 0.9em;
+
+    .prefix {
+      font-weight: 500;
+      color: lighten($textColor, 25%);
     }
 
-    .last-updated {
-        float: right;
-        font-size: 0.9em;
-
-        .prefix {
-            font-weight: 500;
-            color: lighten($textColor, 25%);
-        }
-
-        .time {
-            font-weight: 400;
-            color: #aaa;
-        }
+    .time {
+      font-weight: 400;
+      color: #aaa;
     }
+  }
 }
 
 .page-nav {
-    @extend $wrapper;
+  @extend $wrapper;
+  padding-top: 1rem;
+  padding-bottom: 0;
+
+  .inner {
+    min-height: 2rem;
+    margin-top: 0;
+    border-top: 1px solid $borderColor;
     padding-top: 1rem;
-    padding-bottom: 0;
+    overflow: auto; // clear float
+  }
 
-    .inner {
-        min-height: 2rem;
-        margin-top: 0;
-        border-top: 1px solid $borderColor;
-        padding-top: 1rem;
-        overflow: auto; // clear float
-    }
-
-    .next {
-        float: right;
-    }
+  .next {
+    float: right;
+  }
 }
 
 @media (max-width: $MQMobile) {
-    .page-edit {
-        .edit-link {
-            margin-bottom: 0.5rem;
-        }
-
-        .last-updated {
-            font-size: 0.8em;
-            float: none;
-            text-align: left;
-        }
+  .page-edit {
+    .edit-link {
+      margin-bottom: 0.5rem;
     }
+
+    .last-updated {
+      font-size: 0.8em;
+      float: none;
+      text-align: left;
+    }
+  }
 }
 </style>
